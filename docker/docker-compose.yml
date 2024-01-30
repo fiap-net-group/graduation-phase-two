@@ -3,12 +3,10 @@ name: graduation-phase-two
 services:
   api:
     image: ${DOCKER_REGISTRY-}api
-    networks:
-      - backend
     build:
       context: ../
-      dockerfile: ./src/api/TechBlog.NewsManager.API/Dockerfile
-    container_name: api
+      dockerfile: ./src/TechBlog.NewsManager.API/Dockerfile
+    container_name: graduation-phase-two-api
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:80
