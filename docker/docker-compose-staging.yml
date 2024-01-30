@@ -5,7 +5,7 @@ services:
     image: mcr.microsoft.com/mssql/server:2019-latest
     networks:
       - backend
-    container_name: sqlserver
+    container_name: graduation-phase-two-sqlserver-stg
     environment:
       ACCEPT_EULA: 'Y'
       SA_PASSWORD: "AvS#a1s45s"
@@ -20,13 +20,18 @@ services:
       - backend
     build:
       context: ../
-      dockerfile: ./src/api/TechBlog.NewsManager.API/Dockerfile
-    container_name: api
+      dockerfile: ./src/TechBlog.NewsManager.API/Dockerfile.Staging
+    container_name: graduation-phase-two-api-stg
+    depends_on:
+        - sqlserver
     environment:
-      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_ENVIRONMENT=Staging
       - ASPNETCORE_URLS=http://+:80
     ports:
       - "5015:80"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+networks:
+  backend:
+    driver: bridge
